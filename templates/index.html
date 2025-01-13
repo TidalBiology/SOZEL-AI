@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Tahmin</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Model Tahmin Yapma</h1>
+    <form id="predict-form">
+        <textarea id="input-text" rows="4" cols="50"></textarea><br>
+        <button type="submit">Tahmin Et</button>
+    </form>
+
+    <h2>Sonuç:</h2>
+    <p id="result"></p>
+
+    <script>
+        $(document).ready(function(){
+            $('#predict-form').submit(function(event){
+                event.preventDefault();
+                let inputData = $('#input-text').val();
+
+                $.ajax({
+                    url: '/predict',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({input_data: inputData}),
+                    success: function(response){
+                        $('#result').text('Tahmin Sonucu: ' + response.prediction);
+                    },
+                    error: function(error){
+                        $('#result').text('Hata oluştu.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
