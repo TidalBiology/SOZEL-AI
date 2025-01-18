@@ -19,11 +19,15 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ input: userInput })
+            body: JSON.stringify({ input_data: userInput })  // Anahtar burada 'input_data' olmalı
         })
         .then(response => response.json())
         .then(data => {
-            resultDiv.innerHTML = `<p>${data.response}</p>`;
+            if (data.generated_word) {
+                resultDiv.innerHTML = `<p>Generated Word: ${data.generated_word}</p>`;
+            } else {
+                resultDiv.innerHTML = "<p class='error'>No word generated.</p>";
+            }
         })
         .catch(error => {
             resultDiv.innerHTML = "<p class='error'>There was an error processing your request.</p>";
